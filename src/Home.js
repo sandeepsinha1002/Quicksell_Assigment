@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { Route, Routes, BrowserRouter, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Route, Link, Routes, BrowserRouter, useNavigate } from 'react-router-dom';
 import StatusPage from './components/pages/StatusPage';
 import UserPage from './components/pages/UserPage';
 import PriorityPage from './components/pages/PriorityPage';
 import Navbar from './components/Navbar';
 
-const App = () => {
+const Home = () => {
   const [tickets, setTickets] = useState([]);
   const [sortedTickets, setSortedTickets] = useState([]);
   const [users, setUsers] = useState([]);
@@ -20,6 +20,7 @@ const App = () => {
     setSelectedValue(selectedOption);
     navigate(selectedOption); // Navigate to the selected route
   };
+
 
   useEffect(() => {
     fetch('https://apimocha.com/quicksell/data')
@@ -74,6 +75,7 @@ const App = () => {
   }
 
   return (
+    <BrowserRouter>
       <div className="p-4 bg-[#F4F5F8]">
         <nav className="flex justify-between items-center space-x-4">
           <div className="relative">
@@ -90,35 +92,17 @@ const App = () => {
           </div>
           <div className="relative">
             <span className="block">By:</span>
-            <select
-              className="block py-1 px-2 bg-white border border-gray-300 rounded-sm"
-              value={selectedValue}
-              onChange={handleOptionChange}
-            >
+            <select className="block py-1 px-2 bg-white border border-gray-300 rounded-sm" value={selectedValue} onChange={handleOptionChange}>
               <option value="/status">Status</option>
               <option value="/user">User</option>
-              <option value="/priority">Priority</option>
+              <option value="/priority"></option>
             </select>
           </div>
         </nav>
-        <Routes>
-          <Route
-            path="/status"
-            element={<StatusPage tickets={sortedTickets} />}
-          ></Route>
-          <Route
-            path="/user"
-            element={<UserPage tickets={sortedTickets} users={users} />}
-          ></Route>
-          <Route
-            path="/priority"
-            element={<PriorityPage tickets={sortedTickets} />}
-          ></Route>
-          <Route path="/nav" element={<Navbar />} />
-        </Routes>
       </div>
 
+    </BrowserRouter>
   );
 };
 
-export default App;
+export default Home;
